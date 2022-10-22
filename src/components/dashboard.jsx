@@ -5,7 +5,6 @@ const Dashboard = () => {
   for (let i = 0; i < 100; i++) {
     mockArr.push(`Placeholder -${i}`);
   }
-  console.log(mockArr);
 
   return (
     <ul>
