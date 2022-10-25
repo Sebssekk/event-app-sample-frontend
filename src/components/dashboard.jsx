@@ -1,9 +1,13 @@
 import React, { useEffect, useReducer } from "react";
 import { getAllevents } from "../actions/eventActions";
 import { eventReducer, initState } from "../reducers/eventReducers";
+import EventReport from "./eventReport";
 
 const Dashboard = () => {
-  const [eventState, dispatch] = useReducer(eventReducer, initState);
+  const [{ loading, events, err }, dispatch] = useReducer(
+    eventReducer,
+    initState
+  );
 
   useEffect(() => {
     const getEvents = async () => {
@@ -12,18 +16,16 @@ const Dashboard = () => {
     getEvents();
   }, []);
 
-  const eventList = eventState.events ? (
-    eventState.events.map((ev) => (
+  const eventList = loading ? (
+    <h3>Loading events ...</h3>
+  ) : events ? (
+    events.map((ev) => (
       <React.Fragment key={ev.id}>
-        <div>
-          <h3>{ev.title}</h3>
-          <p>{ev.description}</p>
-        </div>
-        <hr />
+        <EventReport event={ev} />
       </React.Fragment>
     ))
   ) : (
-    <h3>Loading events ...</h3>
+    <p>No events in the specified data source</p>
   );
 
   return (
