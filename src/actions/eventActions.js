@@ -1,3 +1,4 @@
+import { ALARM, INFO, SUCCESS, WARNING } from "../utils/severityTypes"
 import { GET_ALL_EVENTS_SUCCESS, GET_ALL_EVENTS_ERROR, IS_LOADING } from "./actionTypes"
 
 export const getAllevents = async (dispatch) => {
@@ -10,7 +11,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "WARNING",
+                severity: WARNING,
                 author: "Ben Robinson"
             },
             {
@@ -19,7 +20,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "INFO",
+                severity: INFO,
                 author: "Ben Robinson"
             },
             {
@@ -28,7 +29,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "ALARM",
+                severity: ALARM,
                 author: "Ben Robinson"
             },
             {
@@ -37,7 +38,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "SUCCESS",
+                severity: SUCCESS,
                 author: "Ben Robinson"
             },
             {
@@ -46,7 +47,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "WARNING",
+                severity: WARNING,
                 author: "Ben Robinson"
             },
             {
@@ -55,7 +56,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "INFO",
+                severity: INFO,
                 author: "Ben Robinson"
             },
             {
@@ -64,7 +65,7 @@ export const getAllevents = async (dispatch) => {
                 description: "the event description, that can be very verbose and asdfoadfioajsdio sadfjoaspi saiod sioa osihdfoas oasidf sajfoaishdf oasdop daisodfo asdfhias oasih foiasjdfoias sa dfiasiodf asidfioas dfas iasudfioasd asiod asiodj oiasiodcas idcoaios dfasiodf as ciujasiopudi sadasdasdsda.",
                 date: "10/02/2012",
                 place: "Server room",
-                severity: "ALARM",
+                severity: ALARM,
                 author: "Ben Robinson"
             }
         ]

@@ -4,14 +4,24 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Slide from "@mui/material/Slide";
+import { severityMapping } from "../utils/severityMapping";
 
 const EventReport = ({ event }) => {
+  const severityMap = severityMapping(event.severity);
   return (
-    <div>
+    <Slide
+      direction="right"
+      in={true}
+      mountOnEnter
+      unmountOnExit
+      timeout={{ enter: 600 }}
+      easing={{ enter: " cubic-bezier(0.34, 1.56, 0.64, 1)", exit: "linear" }}
+    >
       <Accordion
         sx={{
-          backgroundColor: "lightgrey",
-          margin: 5,
+          backgroundColor: severityMap.color,
+          margin: "0.5% 3%",
         }}
       >
         <AccordionSummary
@@ -19,7 +29,7 @@ const EventReport = ({ event }) => {
           aria-controls={`event-${event.id}panel-content`}
           id={`event-${event.id}panel-header`}
         >
-          <div style={{ backgroundColor: "blue" }}>ble</div>
+          {severityMap.iconjsx}
           <Typography
             variant="h4"
             fontWeight="bold"
@@ -47,7 +57,7 @@ const EventReport = ({ event }) => {
           <Typography textAlign="end"> &#x2022; {event.author}</Typography>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Slide>
   );
 };
 
