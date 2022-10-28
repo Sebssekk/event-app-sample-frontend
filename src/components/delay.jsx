@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 const Delay = ({ delay, children }) => {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    console.log(delay);
     const wait = setTimeout(() => {
       setReady(true);
     }, delay);
     return () => clearTimeout(wait);
-  }, []);
+  }, [delay]);
   return ready ? children : null;
 };
 

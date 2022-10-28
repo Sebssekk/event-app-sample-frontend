@@ -7,7 +7,7 @@ import { TransitionGroup } from "react-transition-group";
 import Delay from "./delay";
 
 const Dashboard = () => {
-  const [{ loading, events, err }, dispatch] = useReducer(
+  const [{ loading, events, error }, dispatch] = useReducer(
     eventReducer,
     initState
   );
@@ -19,9 +19,7 @@ const Dashboard = () => {
     getEvents();
   }, []);
 
-  const eventList = loading ? (
-    <h3>Loading events ...</h3>
-  ) : events ? (
+  const eventList = events ? (
     events.map((ev, i) => (
       <Delay key={ev.id} delay={i * 200}>
         <EventReport event={ev} />
@@ -31,10 +29,17 @@ const Dashboard = () => {
     <p>No events in the specified data source</p>
   );
 
+  console.log(error);
+
   return (
     <Stack spacing={1}>
-      {" "}
-      <TransitionGroup> {eventList}</TransitionGroup>
+      {error && error.status ? (
+        <p style={{ textColor: "red" }}>{error.message}</p>
+      ) : loading ? (
+        <h3>Loading events ...</h3>
+      ) : (
+        <TransitionGroup>{eventList}</TransitionGroup>
+      )}
     </Stack>
   );
 };

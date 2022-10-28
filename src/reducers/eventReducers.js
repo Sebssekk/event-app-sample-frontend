@@ -27,7 +27,6 @@ export const eventReducer = (state, action) => {
         case IS_LOADING :
             return {loading:true, events:[], error:{}}
         case GET_ALL_EVENTS_ERROR:
-        case EVENT_ERROR :
             return {loading:false, events:[], error:action.payload}
         default:
             return state
