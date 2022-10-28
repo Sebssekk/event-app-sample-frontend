@@ -1,12 +1,14 @@
 import './App.css';
 import Header from './components/header';
 import Dashboard from './components/dashboard';
+import Typography from "@mui/material/Typography";
 
 function App() {
   return (
     <div className="App">
       <Header/>
-      <h1>Simple Event App</h1>
+      <Typography variant="h3" >Events Log</Typography>
+      <hr/>
       <Dashboard/>
     </div>
   );
