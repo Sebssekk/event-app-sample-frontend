@@ -29,8 +29,6 @@ const Dashboard = () => {
     <p>No events in the specified data source</p>
   );
 
-  console.log(error);
-
   return (
     <Stack spacing={1}>
       {error && error.status ? (

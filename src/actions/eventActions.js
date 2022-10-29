@@ -9,24 +9,25 @@ export const getAllevents = async (dispatch) => {
             return
         }
         const res = await fetch("/api/events/")
-        //console.log(res)
+       
         if (res.ok){
             const data = await res.json()
-            dispatch({type: GET_ALL_EVENTS_SUCCESS, payload:data.body})
+            dispatch({type: GET_ALL_EVENTS_SUCCESS, payload:data})
         }
         else {
-            throw Error({ status: res.status, message: res.statusText })
+            console.log(res)
+            const err = await res.text()
+            throw { status: res.status, title:res.statusText ,message: err}
         }
     }
     catch (err) {
-        console.log("[x] Error in GET_ALL_EVENTS")
-        console.log(err)
         dispatch(
         {
             type:GET_ALL_EVENTS_ERROR, 
             payload:{
                 status:err.status || 500 , 
-                message:err.message || `${err}`
+                message:err.message || `${err.stack}`,
+                title: err.title || "Generic Error"
             }
         })
     }
