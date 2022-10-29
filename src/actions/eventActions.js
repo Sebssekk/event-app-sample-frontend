@@ -15,7 +15,6 @@ export const getAllevents = async (dispatch) => {
             dispatch({type: GET_ALL_EVENTS_SUCCESS, payload:data})
         }
         else {
-            console.log(res)
             const err = await res.text()
             throw { status: res.status, title:res.statusText ,message: err}
         }

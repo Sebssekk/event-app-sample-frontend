@@ -43,7 +43,7 @@ const EventReport = ({ event }) => {
             {event.place}
           </Typography>
           <Typography textAlign="end" width="30%" fontWeight="bold">
-            {event.date}
+            {event.dateTime.split("T").join(" ")}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
