@@ -1,11 +1,16 @@
 import React from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
+import MuiAccordion from "@mui/material/Accordion";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slide from "@mui/material/Slide";
 import { severityMapping } from "../utils/severityMapping";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Tooltip from "@mui/material/Tooltip";
+import { Stack } from "@mui/material";
 
 const EventReport = ({ event }) => {
   const severityMap = severityMapping(event.severity);
@@ -18,13 +23,14 @@ const EventReport = ({ event }) => {
       timeout={{ enter: 600 }}
       easing={{ enter: " cubic-bezier(0.34, 1.56, 0.64, 1)", exit: "linear" }}
     >
-      <Accordion
+      <MuiAccordion
+        disableGutters
         sx={{
           backgroundColor: severityMap.color,
           margin: "0.5% 3%",
         }}
       >
-        <AccordionSummary
+        <MuiAccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`event-${event.id}panel-content`}
           id={`event-${event.id}panel-header`}
@@ -45,8 +51,12 @@ const EventReport = ({ event }) => {
           <Typography textAlign="end" width="30%" fontWeight="bold">
             {event.dateTime.split("T").join(" ")}
           </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
+        </MuiAccordionSummary>
+        <MuiAccordionDetails
+          sx={{
+            paddingBottom: 0.2,
+          }}
+        >
           <Typography textAlign="left" fontWeight="bold">
             Severity: {event.severity}
           </Typography>
@@ -55,8 +65,20 @@ const EventReport = ({ event }) => {
           </Typography>
           <Typography padding="0 10%">{event.description}</Typography>
           <Typography textAlign="end"> &#x2022; {event.author}</Typography>
-        </AccordionDetails>
-      </Accordion>
+          <Stack direction="row">
+            <Tooltip title="Update Event">
+              <IconButton aria-label="update">
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Event">
+              <IconButton aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Stack>
+        </MuiAccordionDetails>
+      </MuiAccordion>
     </Slide>
   );
 };
