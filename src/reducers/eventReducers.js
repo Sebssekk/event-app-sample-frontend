@@ -9,25 +9,28 @@ import {
     GET_ALL_EVENTS_ERROR
 } from "../actions/actionTypes";
 
-export const initState = {
+export const initStateEvent = {
     loading: false,
     events: [],
-    err: {}
+    err: {},
+    msg: ""
 }
 
 export const eventReducer = (state, action) => {
     switch(action.type){
         case GET_ALL_EVENTS_SUCCESS:
-            return {loading:false, events:action.payload, error:{}}
+            return {loading:false, events:action.payload, error:{}, msg:"Events Successfully fetched."}
         case GET_EVENT_BY_ID_SUCCESS :
         case CREATE_EVENT_SUCCESS :
         case UPDATE_EVENT_SUCCESS:
         case DELETE_EVENT_SUCCESS :
-            return {loading:false, events:[action.payload], error:{}}
+            return {...state, loading:false, msg:"Events Successfully deleted."}
         case IS_LOADING :
-            return {loading:true, events:[], error:{}}
+            return {...state , loading:true, msg: ""}
         case GET_ALL_EVENTS_ERROR:
-            return {loading:false, events:[], error:action.payload}
+            return {loading:false, events:[], error:action.payload, msg:""}
+        case EVENT_ERROR:
+            return {loading:false, events:[], error:action.payload, msg: ""}
         default:
             return state
     }

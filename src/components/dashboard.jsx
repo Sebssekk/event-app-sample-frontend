@@ -1,22 +1,25 @@
 import { Button, Stack } from "@mui/material";
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { getAllevents } from "../actions/eventActions";
-import { eventReducer, initState } from "../reducers/eventReducers";
+import { eventReducer, initStateEvent } from "../reducers/eventReducers";
+
 import EventReport from "./eventReport";
 import { TransitionGroup } from "react-transition-group";
 import AddCircle from "@mui/icons-material/AddCircle";
 import Delay from "./delay";
 import { Box } from "@mui/system";
+import AddOrModifyEventForm from "./addEventForm";
 
 const Dashboard = () => {
-  const [{ loading, events, error }, dispatch] = useReducer(
+  const [{ loading, events, error }, dispatchEvent] = useReducer(
     eventReducer,
-    initState
+    initStateEvent
   );
+  const [openAddEvForm, setOpenAddEvForm] = useState(true);
 
   useEffect(() => {
     const getEvents = async () => {
-      await getAllevents(dispatch);
+      await getAllevents(dispatchEvent);
     };
     getEvents();
   }, []);
@@ -33,10 +36,12 @@ const Dashboard = () => {
 
   return (
     <Box>
+      <AddOrModifyEventForm open={openAddEvForm} setOpen={setOpenAddEvForm} />
       <Button
         variant="contained"
         size="large"
         startIcon={<AddCircle />}
+        onClick={() => setOpenAddEvForm(true)}
         sx={{
           marginLeft: "80%",
           marginTop: "-100px",
