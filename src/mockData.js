@@ -1,4 +1,4 @@
-const mockEvents = [
+export const mockEvents = [
     {
         id : 0,
         title : "event Title",
@@ -63,4 +63,3 @@ const mockEvents = [
         author: "Ben Robinson"
     }
 ]
-module.exports = mockEvents

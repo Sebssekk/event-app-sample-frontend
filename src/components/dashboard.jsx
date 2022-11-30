@@ -10,22 +10,22 @@ import Delay from "./delay";
 import { Box } from "@mui/system";
 import AddOrModifyEventForm from "./addEventForm";
 
+export const EventContext = React.createContext();
+
 const Dashboard = () => {
-  const [{ loading, events, error }, dispatchEvent] = useReducer(
-    eventReducer,
-    initStateEvent
-  );
-  const [openAddEvForm, setOpenAddEvForm] = useState(true);
+  const [stateEvent, dispatchEvent] = useReducer(eventReducer, initStateEvent);
+  const [openAddEvForm, setOpenAddEvForm] = useState(false);
 
   useEffect(() => {
+    console.log("GET ALL EVENT");
     const getEvents = async () => {
       await getAllevents(dispatchEvent);
     };
     getEvents();
   }, []);
 
-  const eventList = events ? (
-    events.map((ev, i) => (
+  const eventList = stateEvent.events ? (
+    stateEvent.events.map((ev, i) => (
       <Delay key={ev.id} delay={i * 200}>
         <EventReport event={ev} />
       </Delay>
@@ -36,7 +36,11 @@ const Dashboard = () => {
 
   return (
     <Box>
-      <AddOrModifyEventForm open={openAddEvForm} setOpen={setOpenAddEvForm} />
+      <EventContext.Provider
+        value={{ state: stateEvent, dispatch: dispatchEvent }}
+      >
+        <AddOrModifyEventForm open={openAddEvForm} setOpen={setOpenAddEvForm} />
+      </EventContext.Provider>
       <Button
         variant="contained"
         size="large"
@@ -54,9 +58,9 @@ const Dashboard = () => {
         Add New Event
       </Button>
       <Stack spacing={1}>
-        {error && error.status ? (
-          <p style={{ textColor: "red" }}>{error.message}</p>
-        ) : loading ? (
+        {stateEvent.err && stateEvent.err.status ? (
+          <p style={{ textColor: "red" }}>{stateEvent.err.message}</p>
+        ) : stateEvent.loading ? (
           <h3>Loading events ...</h3>
         ) : (
           <TransitionGroup>{eventList}</TransitionGroup>

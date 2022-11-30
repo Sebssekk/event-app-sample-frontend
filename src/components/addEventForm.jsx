@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { ALARM, INFO, SUCCESS, WARNING } from "../utils/severityTypes";
+import { createEvent } from "../actions/eventActions";
 import dayjs from "dayjs";
 import {
   Modal,
@@ -18,15 +19,18 @@ import { Box } from "@mui/system";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { severityMapping } from "../utils/severityMapping";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { EventContext } from "./dashboard";
 
 const AddOrModifyEventForm = ({ open, setOpen }) => {
   const [eventToCreate, setEventToCreate] = useState({
     title: "",
+    description: "",
     author: "",
     place: "",
     severity: INFO,
     dateTime: dayjs().toISOString().split(".")[0],
   });
+  const { state, dispatch } = useContext(EventContext);
 
   const handleChange = (e, key = null, value = null) => {
     if (key === null) {
@@ -38,6 +42,22 @@ const AddOrModifyEventForm = ({ open, setOpen }) => {
     setEventToCreate({
       ...eventToCreate,
       [key]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setOpen(false);
+    console.log("SUBMIT");
+    console.log(eventToCreate);
+    createEvent(dispatch, eventToCreate);
+    setEventToCreate({
+      title: "",
+      description: "",
+      author: "",
+      place: "",
+      severity: INFO,
+      dateTime: dayjs().toISOString().split(".")[0],
     });
   };
 
@@ -57,12 +77,7 @@ const AddOrModifyEventForm = ({ open, setOpen }) => {
     <Modal open={open} onClose={() => setOpen(false)}>
       <Box
         component="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          setOpen(false);
-          console.log("SUBMIT");
-          console.log(eventToCreate);
-        }}
+        onSubmit={(e) => handleSubmit(e)}
         sx={{
           position: "absolute",
           top: "20%",
