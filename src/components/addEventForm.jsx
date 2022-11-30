@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ALARM, INFO, SUCCESS, WARNING } from "../utils/severityTypes";
-import { createEvent } from "../actions/eventActions";
+import { createEvent, updateEvent } from "../actions/eventActions";
 import dayjs from "dayjs";
 import {
   Modal,
@@ -21,7 +21,7 @@ import { severityMapping } from "../utils/severityMapping";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { EventContext } from "./dashboard";
 
-const AddOrModifyEventForm = ({ open, setOpen }) => {
+const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
   const [eventToCreate, setEventToCreate] = useState({
     title: "",
     description: "",
@@ -30,7 +30,14 @@ const AddOrModifyEventForm = ({ open, setOpen }) => {
     severity: INFO,
     dateTime: dayjs().toISOString().split(".")[0],
   });
-  const { state, dispatch } = useContext(EventContext);
+
+  useEffect(() => {
+    if (edit) {
+      setEventToCreate(edit);
+    }
+  }, [edit]);
+
+  const { _, dispatch } = useContext(EventContext);
 
   const handleChange = (e, key = null, value = null) => {
     if (key === null) {
@@ -50,7 +57,9 @@ const AddOrModifyEventForm = ({ open, setOpen }) => {
     setOpen(false);
     console.log("SUBMIT");
     console.log(eventToCreate);
-    createEvent(dispatch, eventToCreate);
+    edit
+      ? updateEvent(dispatch, eventToCreate) && setEdit(null)
+      : createEvent(dispatch, eventToCreate);
     setEventToCreate({
       title: "",
       description: "",

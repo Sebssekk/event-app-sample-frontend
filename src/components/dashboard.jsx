@@ -15,6 +15,7 @@ export const EventContext = React.createContext();
 const Dashboard = () => {
   const [stateEvent, dispatchEvent] = useReducer(eventReducer, initStateEvent);
   const [openAddEvForm, setOpenAddEvForm] = useState(false);
+  const [updateEvent, setUpdateEvent] = useState(null);
 
   useEffect(() => {
     console.log("GET ALL EVENT");
@@ -27,7 +28,11 @@ const Dashboard = () => {
   const eventList = stateEvent.events ? (
     stateEvent.events.map((ev, i) => (
       <Delay key={ev.id} delay={i * 200}>
-        <EventReport event={ev} />
+        <EventReport
+          event={ev}
+          setOpenAddEvForm={setOpenAddEvForm}
+          setEdit={setUpdateEvent}
+        />
       </Delay>
     ))
   ) : (
@@ -39,7 +44,12 @@ const Dashboard = () => {
       <EventContext.Provider
         value={{ state: stateEvent, dispatch: dispatchEvent }}
       >
-        <AddOrModifyEventForm open={openAddEvForm} setOpen={setOpenAddEvForm} />
+        <AddOrModifyEventForm
+          open={openAddEvForm}
+          setOpen={setOpenAddEvForm}
+          edit={updateEvent}
+          setEdit={setUpdateEvent}
+        />
       </EventContext.Provider>
       <Button
         variant="contained"

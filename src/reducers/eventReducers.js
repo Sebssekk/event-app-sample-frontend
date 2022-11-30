@@ -7,7 +7,8 @@ import {
     UPDATE_EVENT_SUCCESS,
     DELETE_EVENT_SUCCESS,
     GET_ALL_EVENTS_ERROR,
-    CREATE_EVENT_ERROR
+    CREATE_EVENT_ERROR,
+    UPDATE_EVENT_ERROR
 } from "../actions/actionTypes";
 
 export const initStateEvent = {
@@ -25,6 +26,7 @@ export const eventReducer = (state, action) => {
         case CREATE_EVENT_SUCCESS :
             return {loading: false, events: [...state.events, action.payload], error: null, msg: `Events <id:${action.payload.id}> successfully created`}
         case UPDATE_EVENT_SUCCESS:
+            return {loading: false, events: [...state.events.filter(e => e.id !== action.payload.id), action.payload], error: null, msg: `Events <id:${action.payload.id}> successfully updated`}
         case DELETE_EVENT_SUCCESS :
             return {...state, loading:false, msg:"Events Successfully deleted."}
         case IS_LOADING :
@@ -32,6 +34,7 @@ export const eventReducer = (state, action) => {
         case GET_ALL_EVENTS_ERROR:
             return {loading:false, events:[], error:action.payload, msg:""}
         case CREATE_EVENT_ERROR:
+        case UPDATE_EVENT_ERROR:
             return {...state, loading: false, error:action.payload, msg:""}
         case EVENT_ERROR:
             return {loading:false, events:[], error:action.payload, msg: ""}

@@ -12,8 +12,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import Tooltip from "@mui/material/Tooltip";
 import { Stack } from "@mui/material";
 
-const EventReport = ({ event }) => {
+const EventReport = ({ event, setOpenAddEvForm, setEdit }) => {
   const severityMap = severityMapping(event.severity);
+
+  const handleEdit = (e) => {
+    setEdit(event);
+    setOpenAddEvForm(true);
+  };
+
   return (
     <Slide
       direction="right"
@@ -66,7 +72,7 @@ const EventReport = ({ event }) => {
           <Typography padding="0 10%">{event.description}</Typography>
           <Typography textAlign="end"> &#x2022; {event.author}</Typography>
           <Stack direction="row">
-            <Tooltip title="Update Event">
+            <Tooltip title="Update Event" onClick={(e) => handleEdit(e)}>
               <IconButton aria-label="update">
                 <EditIcon />
               </IconButton>
