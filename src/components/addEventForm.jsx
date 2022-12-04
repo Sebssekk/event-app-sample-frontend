@@ -51,15 +51,11 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
       [key]: value,
     });
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleFormClosing = () => {
     setOpen(false);
-    console.log("SUBMIT");
-    console.log(eventToCreate);
-    edit
-      ? updateEvent(dispatch, eventToCreate) && setEdit(null)
-      : createEvent(dispatch, eventToCreate);
+    if (edit) {
+      setEdit(null);
+    }
     setEventToCreate({
       title: "",
       description: "",
@@ -68,6 +64,17 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
       severity: INFO,
       dateTime: dayjs().toISOString().split(".")[0],
     });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("SUBMIT");
+    console.log(eventToCreate);
+    edit
+      ? updateEvent(dispatch, eventToCreate)
+      : createEvent(dispatch, eventToCreate);
+
+    handleFormClosing();
   };
 
   const severityButtonGroup = [SUCCESS, INFO, WARNING, ALARM].map((sev) => {
@@ -83,7 +90,7 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
   });
 
   return (
-    <Modal open={open} onClose={() => setOpen(false)}>
+    <Modal open={open} onClose={() => handleFormClosing()}>
       <Box
         component="form"
         onSubmit={(e) => handleSubmit(e)}
