@@ -1,4 +1,4 @@
-import { GET_ALL_EVENTS_SUCCESS, GET_ALL_EVENTS_ERROR, IS_LOADING, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_ERROR } from "./actionTypes"
+import { GET_ALL_EVENTS_SUCCESS, GET_ALL_EVENTS_ERROR, IS_LOADING, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_ERROR, DELETE_EVENT_SUCCESS, DELETE_EVENT_ERROR } from "./actionTypes"
 import {mockEvents} from "../mockData"
 
 export const getAllevents = async (dispatch) => {
@@ -108,4 +108,36 @@ export const updateEvent = async (dispatch,event) => {
         })
     }
 }
-export const deleteEvent = async (id) => {}
+export const deleteEvent = async (dispatch,id) => {
+    dispatch({type: IS_LOADING})
+    try{
+        // if (process.env.NODE_ENV==='development'){
+        //     dispatch({type: UPDATE_EVENT_SUCCESS , payload:event})
+        //     return
+        // }
+        
+        const res = await fetch(`/api/events/${id}`,{
+            method: 'DELETE'
+        });
+       
+        if (res.ok){
+            const data = await res.json()
+            dispatch({type: DELETE_EVENT_SUCCESS, payload:data})
+        }
+        else {
+            const err = await res.text()
+            throw { status: res.status, title:res.statusText ,message: err}
+        }
+    }
+    catch (err) {
+        dispatch(
+        {
+            type: DELETE_EVENT_ERROR, 
+            payload:{
+                status:err.status || 500 , 
+                message:err.message || `${err.stack}`,
+                title: err.title || `Generic Error Deletinh Event ${id}`
+            }
+        })
+    }
+}

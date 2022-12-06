@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
@@ -11,13 +11,21 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Tooltip from "@mui/material/Tooltip";
 import { Stack } from "@mui/material";
+import { EventContext } from "./dashboard";
+import { deleteEvent } from "../actions/eventActions";
 
 const EventReport = ({ event, setOpenAddEvForm, setEdit }) => {
   const severityMap = severityMapping(event.severity);
 
+  const { _, dispatch } = useContext(EventContext);
+
   const handleEdit = (e) => {
     setEdit(event);
     setOpenAddEvForm(true);
+  };
+
+  const handleDelete = (e) => {
+    deleteEvent(dispatch, event.id);
   };
 
   return (
@@ -77,7 +85,7 @@ const EventReport = ({ event, setOpenAddEvForm, setEdit }) => {
                 <EditIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Delete Event">
+            <Tooltip title="Delete Event" onClick={(e) => handleDelete(e)}>
               <IconButton aria-label="delete">
                 <DeleteIcon />
               </IconButton>

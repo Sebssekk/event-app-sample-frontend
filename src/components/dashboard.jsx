@@ -50,32 +50,33 @@ const Dashboard = () => {
           edit={updateEvent}
           setEdit={setUpdateEvent}
         />
+
+        <Button
+          variant="contained"
+          size="large"
+          startIcon={<AddCircle />}
+          onClick={() => setOpenAddEvForm(true)}
+          sx={{
+            marginLeft: "80%",
+            marginTop: "-100px",
+            backgroundColor: "#a4a4a6",
+            ":hover": {
+              backgroundColor: "#dbdbdb",
+            },
+          }}
+        >
+          Add New Event
+        </Button>
+        <Stack spacing={1}>
+          {stateEvent.error && stateEvent.error.status ? (
+            <p style={{ textColor: "red" }}>{stateEvent.error.message}</p>
+          ) : stateEvent.loading ? (
+            <h3>Loading events ...</h3>
+          ) : (
+            <TransitionGroup>{eventList}</TransitionGroup>
+          )}
+        </Stack>
       </EventContext.Provider>
-      <Button
-        variant="contained"
-        size="large"
-        startIcon={<AddCircle />}
-        onClick={() => setOpenAddEvForm(true)}
-        sx={{
-          marginLeft: "80%",
-          marginTop: "-100px",
-          backgroundColor: "#a4a4a6",
-          ":hover": {
-            backgroundColor: "#dbdbdb",
-          },
-        }}
-      >
-        Add New Event
-      </Button>
-      <Stack spacing={1}>
-        {stateEvent.err && stateEvent.err.status ? (
-          <p style={{ textColor: "red" }}>{stateEvent.err.message}</p>
-        ) : stateEvent.loading ? (
-          <h3>Loading events ...</h3>
-        ) : (
-          <TransitionGroup>{eventList}</TransitionGroup>
-        )}
-      </Stack>
     </Box>
   );
 };
