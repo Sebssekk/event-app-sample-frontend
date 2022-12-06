@@ -1,4 +1,4 @@
-import { GET_ALL_EVENTS_SUCCESS, GET_ALL_EVENTS_ERROR, IS_LOADING, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_ERROR, DELETE_EVENT_SUCCESS, DELETE_EVENT_ERROR } from "./actionTypes"
+import { GET_ALL_EVENTS_SUCCESS, GET_ALL_EVENTS_ERROR, IS_LOADING, CREATE_EVENT_SUCCESS, CREATE_EVENT_ERROR, UPDATE_EVENT_SUCCESS, UPDATE_EVENT_ERROR, DELETE_EVENT_SUCCESS, DELETE_EVENT_ERROR, CLEAN_ERR_AND_MSG } from "./actionTypes"
 import {mockEvents} from "../mockData"
 
 export const getAllevents = async (dispatch) => {
@@ -29,9 +29,13 @@ export const getAllevents = async (dispatch) => {
                 title: err.title || "Generic Error fetching all events"
             }
         })
+        console.log(err.message)
+
     }
 }
-export const getEventById = async (id) => {}
+
+//export const getEventById = async (id) => {}
+
 export const createEvent = async (dispatch,event) => {
     dispatch({type: IS_LOADING})
     try{
@@ -68,6 +72,7 @@ export const createEvent = async (dispatch,event) => {
                 title: err.title || "Generic Error Adding an Event"
             }
         })
+        console.log(err.message)
     }
 }
 
@@ -106,6 +111,7 @@ export const updateEvent = async (dispatch,event) => {
                 title: err.title || `Generic Error Updating Event ${event.id}`
             }
         })
+        console.log(err.message)
     }
 }
 export const deleteEvent = async (dispatch,id) => {
@@ -139,5 +145,10 @@ export const deleteEvent = async (dispatch,id) => {
                 title: err.title || `Generic Error Deletinh Event ${id}`
             }
         })
+        console.log(err.message)
     }
+}
+
+export const cleanMsgAndErr = (dispatch) => {
+    dispatch({type: CLEAN_ERR_AND_MSG})
 }

@@ -1,6 +1,6 @@
-import { Button, Stack } from "@mui/material";
+import { Alert, Button, Snackbar, Stack } from "@mui/material";
 import React, { useEffect, useReducer, useState } from "react";
-import { getAllevents } from "../actions/eventActions";
+import { getAllevents, cleanMsgAndErr } from "../actions/eventActions";
 import { eventReducer, initStateEvent } from "../reducers/eventReducers";
 
 import EventReport from "./eventReport";
@@ -67,15 +67,28 @@ const Dashboard = () => {
         >
           Add New Event
         </Button>
+
         <Stack spacing={1}>
-          {stateEvent.error && stateEvent.error.status ? (
-            <p style={{ textColor: "red" }}>{stateEvent.error.message}</p>
-          ) : stateEvent.loading ? (
+          {stateEvent.loading ? (
             <h3>Loading events ...</h3>
           ) : (
             <TransitionGroup>{eventList}</TransitionGroup>
           )}
         </Stack>
+        <Snackbar
+          open={!!(stateEvent && (stateEvent.msg || stateEvent.error))}
+          autoHideDuration={5000}
+          onClose={() => cleanMsgAndErr(dispatchEvent)}
+        >
+          <Alert
+            severity={stateEvent.error ? "error" : "info"}
+            sx={{ width: "100%" }}
+          >
+            {stateEvent.error
+              ? `Error status ${stateEvent.error.status} - ${stateEvent.error.title}`
+              : stateEvent.msg}
+          </Alert>
+        </Snackbar>
       </EventContext.Provider>
     </Box>
   );
