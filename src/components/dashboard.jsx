@@ -8,29 +8,29 @@ import { TransitionGroup } from "react-transition-group";
 import AddCircle from "@mui/icons-material/AddCircle";
 import Delay from "./delay";
 import { Box } from "@mui/system";
-import AddOrModifyEventForm from "./addEventForm";
+import AddOrModifyEventForm from "./addOrModifyEventForm";
 
 export const EventContext = React.createContext();
 
 const Dashboard = () => {
-  const [stateEvent, dispatchEvent] = useReducer(eventReducer, initStateEvent);
-  const [openAddEvForm, setOpenAddEvForm] = useState(false);
+  const [eventState, eventDispatch] = useReducer(eventReducer, initStateEvent);
+  const [openAddOrModEvForm, setOpenAddOrModEvForm] = useState(false);
   const [updateEvent, setUpdateEvent] = useState(null);
 
   useEffect(() => {
     console.log("GET ALL EVENT");
     const getEvents = async () => {
-      await getAllevents(dispatchEvent);
+      await getAllevents(eventDispatch);
     };
     getEvents();
   }, []);
 
-  const eventList = stateEvent.events ? (
-    stateEvent.events.map((ev, i) => (
+  const eventList = eventState.events ? (
+    eventState.events.map((ev, i) => (
       <Delay key={ev.id} delay={i * 200}>
         <EventReport
           event={ev}
-          setOpenAddEvForm={setOpenAddEvForm}
+          setOpenAddEvForm={setOpenAddOrModEvForm}
           setEdit={setUpdateEvent}
         />
       </Delay>
@@ -42,11 +42,11 @@ const Dashboard = () => {
   return (
     <Box>
       <EventContext.Provider
-        value={{ state: stateEvent, dispatch: dispatchEvent }}
+        value={{ state: eventState, dispatch: eventDispatch }}
       >
         <AddOrModifyEventForm
-          open={openAddEvForm}
-          setOpen={setOpenAddEvForm}
+          open={openAddOrModEvForm}
+          setOpen={setOpenAddOrModEvForm}
           edit={updateEvent}
           setEdit={setUpdateEvent}
         />
@@ -55,7 +55,7 @@ const Dashboard = () => {
           variant="contained"
           size="large"
           startIcon={<AddCircle />}
-          onClick={() => setOpenAddEvForm(true)}
+          onClick={() => setOpenAddOrModEvForm(true)}
           sx={{
             marginLeft: "80%",
             marginTop: "-100px",
@@ -69,24 +69,24 @@ const Dashboard = () => {
         </Button>
 
         <Stack spacing={1}>
-          {stateEvent.loading ? (
+          {eventState.loading ? (
             <h3>Loading events ...</h3>
           ) : (
             <TransitionGroup>{eventList}</TransitionGroup>
           )}
         </Stack>
         <Snackbar
-          open={!!(stateEvent && (stateEvent.msg || stateEvent.error))}
+          open={!!(eventState && (eventState.msg || eventState.error))}
           autoHideDuration={5000}
-          onClose={() => cleanMsgAndErr(dispatchEvent)}
+          onClose={() => cleanMsgAndErr(eventDispatch)}
         >
           <Alert
-            severity={stateEvent.error ? "error" : "info"}
+            severity={eventState.error ? "error" : "info"}
             sx={{ width: "100%" }}
           >
-            {stateEvent.error
-              ? `Error status ${stateEvent.error.status} - ${stateEvent.error.title}`
-              : stateEvent.msg}
+            {eventState.error
+              ? `Error status ${eventState.error.status} - ${eventState.error.title}`
+              : eventState.msg}
           </Alert>
         </Snackbar>
       </EventContext.Provider>
