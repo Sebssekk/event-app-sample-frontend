@@ -22,7 +22,7 @@ import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { EventContext } from "./dashboard";
 
 const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
-  const [eventToCreate, setEventToCreate] = useState({
+  const [eventToCreateOrUpdate, setEventToCreateOrUpdate] = useState({
     title: "",
     description: "",
     author: "",
@@ -33,7 +33,7 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
 
   useEffect(() => {
     if (edit) {
-      setEventToCreate(edit);
+      setEventToCreateOrUpdate(edit);
     }
   }, [edit]);
 
@@ -46,8 +46,8 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
     if (value === null) {
       value = e.target.value;
     }
-    setEventToCreate({
-      ...eventToCreate,
+    setEventToCreateOrUpdate({
+      ...eventToCreateOrUpdate,
       [key]: value,
     });
   };
@@ -56,7 +56,7 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
     if (edit) {
       setEdit(null);
     }
-    setEventToCreate({
+    setEventToCreateOrUpdate({
       title: "",
       description: "",
       author: "",
@@ -69,10 +69,10 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("SUBMIT");
-    console.log(eventToCreate);
+    console.log(eventToCreateOrUpdate);
     edit
-      ? updateEvent(dispatch, eventToCreate)
-      : createEvent(dispatch, eventToCreate);
+      ? updateEvent(dispatch, eventToCreateOrUpdate)
+      : createEvent(dispatch, eventToCreateOrUpdate);
 
     handleFormClosing();
   };
@@ -107,10 +107,6 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
           paddingTop: "50px",
           paddingBottom: "50px",
           textAlign: "center",
-
-          //   "& > :not(style)": {
-          //     gridColumn: 1,
-          //   },
         }}
       >
         <Typography variant="h2">Add a New Event</Typography>
@@ -129,14 +125,14 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
               label="Event Title"
               variant="standard"
               onChange={(e) => handleChange(e)}
-              value={eventToCreate.title}
+              value={eventToCreateOrUpdate.title}
             />
             <TextField
               id="author"
               label="Event Author"
               variant="standard"
               onChange={(e) => handleChange(e)}
-              value={eventToCreate.author}
+              value={eventToCreateOrUpdate.author}
             />
           </Stack>
           <TextareaAutosize
@@ -146,19 +142,19 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
             placeholder="Describe what happened here"
             style={{ paddingTop: "20px", paddingLeft: "10px" }}
             onChange={(e) => handleChange(e)}
-            value={eventToCreate.description}
+            value={eventToCreateOrUpdate.description}
           />
           <FormControl>
             <FormLabel>
               <Stack direction="row" spacing="10px" justifyContent="center">
                 <Typography alignSelf="center">Severity :</Typography>{" "}
-                {severityMapping(eventToCreate.severity).iconjsx}
+                {severityMapping(eventToCreateOrUpdate.severity).iconjsx}
               </Stack>
             </FormLabel>
             <RadioGroup
               id="severity"
               onChange={(e) => handleChange(e, "severity")}
-              value={eventToCreate.severity}
+              value={eventToCreateOrUpdate.severity}
               row
               aria-labelledby="severity-radio-buttons-group-label"
               name="severity-radio-buttons-group"
@@ -172,7 +168,7 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
               id="place"
               label="Event Location"
               variant="standard"
-              value={eventToCreate.place}
+              value={eventToCreateOrUpdate.place}
               onChange={(e) => handleChange(e)}
             />
 
@@ -180,7 +176,7 @@ const AddOrModifyEventForm = ({ open, setOpen, edit, setEdit }) => {
               <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 label="DateTimePicker"
-                value={dayjs(eventToCreate.dateTime)}
+                value={dayjs(eventToCreateOrUpdate.dateTime)}
                 onChange={(dateTime) => {
                   handleChange(
                     null,

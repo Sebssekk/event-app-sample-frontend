@@ -1,4 +1,11 @@
-import { Alert, Button, Snackbar, Stack } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Skeleton,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/material";
 import React, { useEffect, useReducer, useState } from "react";
 import { getAllevents, cleanMsgAndErr } from "../actions/eventActions";
 import { eventReducer, initStateEvent } from "../reducers/eventReducers";
@@ -24,6 +31,25 @@ const Dashboard = () => {
     };
     getEvents();
   }, []);
+
+  const loadingSkeleton = (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((e) => (
+        <Skeleton
+          variant="text"
+          animation="wave"
+          width="94%"
+          sx={{ fontSize: "4rem" }}
+        />
+      ))}
+    </Box>
+  );
 
   const eventList = eventState.events ? (
     eventState.events.map((ev, i) => (
@@ -68,11 +94,15 @@ const Dashboard = () => {
           Add New Event
         </Button>
 
-        <Stack spacing={1}>
+        <Stack>
           {eventState.loading ? (
-            <h3>Loading events ...</h3>
-          ) : (
+            loadingSkeleton
+          ) : eventState.events.length > 0 ? (
             <TransitionGroup>{eventList}</TransitionGroup>
+          ) : (
+            <Typography fontStyle="italic" variant="h4">
+              No events to display ...
+            </Typography>
           )}
         </Stack>
         <Snackbar
