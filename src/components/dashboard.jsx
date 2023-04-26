@@ -23,7 +23,6 @@ const Dashboard = () => {
   const [eventState, eventDispatch] = useReducer(eventReducer, initStateEvent);
   const [openAddOrModEvForm, setOpenAddOrModEvForm] = useState(false);
   const [updateEvent, setUpdateEvent] = useState(null);
-  const [dbConnection, setDbConnection] = useState(true);
 
   useEffect(() => {
     console.log("GET ALL EVENT");
