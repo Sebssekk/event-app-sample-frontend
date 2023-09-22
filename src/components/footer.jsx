@@ -15,7 +15,7 @@ const Footer = () => {
       <Box
         sx={{
           boxShadow: "1px -1px 3px",
-          backgroundColor: "grey",
+          backgroundColor: "blue",
           padding: "20px",
         }}
       >
